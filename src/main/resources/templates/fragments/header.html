@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<th:block th:fragment="header">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-menu" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" th:href="@{/}">WDPR Notification Service</a>
+            </div>
+            
+            <!-- Collapsible Navbar -->
+            <div class="collapse navbar-collapse" id="nav-menu">
+                <ul class="nav navbar-nav">
+                    <li th:classappend="${module == 'home' ? 'active' : ''}">
+                        <a th:href="@{/}">Home</a>
+                    </li>
+                    <li th:classappend="${module == 'test' ? 'active' : ''}">
+                        <a th:href="@{/test/}">Test</a>
+                    </li>
+                    <li th:classappend="${module == 'app-configs' ? 'active' : ''}">
+                        <a th:href="@{/management/app-configs}"><span class="glyphicon glyphicon-lock"></span> App Configs</a>
+                    </li>
+                    <li th:classappend="${module == 'campaigns' ? 'active' : ''}">
+                        <a th:href="@{/management/campaigns}"><span class="glyphicon glyphicon-lock"></span> Campaigns</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    </li>
+                    <li class="dropdown" sec:authorize="isAuthenticated()">
+                        <a href="#" class="dropdown-toggle"
+                           data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" 
+                           th:inline="text">Welcome, [[${#authentication.name}]] <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/logout" th:href="@{/logout}" onclick="$('#logout_form').submit();">
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                                </a>
+                                <form class="invisible" id="logout_form" method="post" action="#" th:action="@{/logout}"></form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</th:block>
+</body>
+</html>
